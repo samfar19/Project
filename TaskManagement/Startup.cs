@@ -11,10 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Projects.Models;
 using Microsoft.EntityFrameworkCore;
+using TaskManagement.Models;
 
-namespace Projects
+namespace TaskManagement
 {
     public class Startup
     {
@@ -32,10 +32,9 @@ namespace Projects
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Projects", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TaskManagement", Version = "v1" });
             });
-            services.AddDbContext<EmployeeDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("EmployeeDbConnectionString")));
- 
+            services.AddDbContext<TaskManagementContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SqlServerString")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,7 +44,7 @@ namespace Projects
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Projects v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TaskManagement v1"));
             }
 
             app.UseHttpsRedirection();
@@ -58,7 +57,6 @@ namespace Projects
             {
                 endpoints.MapControllers();
             });
-
         }
     }
 }
